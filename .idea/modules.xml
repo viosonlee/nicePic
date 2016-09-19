@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nicePic.iml" filepath="$PROJECT_DIR$/nicePic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/viosonlibrary/viosonlibrary.iml" filepath="$PROJECT_DIR$/viosonlibrary/viosonlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xiumm/xiumm.iml" filepath="$PROJECT_DIR$/xiumm/xiumm.iml" />
+    </modules>
+  </component>
+</project>

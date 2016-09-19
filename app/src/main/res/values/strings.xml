@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">优图</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">设置</string>
+    <string name="action_share">分享</string>
+
+    <string name="title_activity_pic_gallery">PicGalleryActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="about">关于</string>
+    <string name="copy_right">本软件所有内容来自互联网，仅供交流学习</string>
+</resources>
