@@ -12,7 +12,8 @@ import android.view.ViewGroup;
  * Todo 适配器
  */
 public abstract class VRecyclerViewAdapter extends RecyclerView.Adapter {
-    protected static final int TYPE_FOOTER = 1;
+    protected static final int TYPE_FOOTER = 2;
+    protected static final int TYPE_NORMAL = 1;
 
     public VRecyclerViewAdapter(VRecyclerViewFooter vRecyclerViewFooter) {
         mVRecyclerViewFooter = vRecyclerViewFooter;
