@@ -1,4 +1,4 @@
-package lee.vioson.widget;
+package lee.vioson.widget.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
