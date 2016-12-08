@@ -41,7 +41,7 @@ public class WebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
 

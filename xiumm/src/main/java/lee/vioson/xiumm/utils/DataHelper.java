@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import lee.vioson.utils.DebugLog;
 import lee.vioson.xiumm.models.ListData;
 import lee.vioson.xiumm.models.PicDetail;
 import lee.vioson.xiumm.models.Type;
@@ -49,24 +50,27 @@ public class DataHelper {
             if (document != null) {
 //                Log.d(TAG, document.toString());
                 Element bodywrap = document.getElementById("bodywrap");
-//                Log.d(TAG, bodywrap.toString());
+                Log.d(TAG, bodywrap.toString());
                 Elements elements = bodywrap.select("a[target]");
-//                Log.d(TAG, elements.toString());
+                Log.d(TAG, elements.toString());
                 ArrayList<ListData> listDatas = new ArrayList<>();
                 for (Element element : elements) {
                     String href = element.attr("href");
                     Elements img = element.select("img");
-                    String alt = img.attr("alt");
-                    String src = img.attr("src");
-                    ListData listData = new ListData();
-                    listData.alt = alt;
-                    listData.src = src;
-                    listData.href = href;
-//                    Log.e(TAG, listData.toString());
-                    listDatas.add(listData);
+                    if (img != null && !img.isEmpty()) {
+                        String alt = img.attr("alt");
+                        String src = img.attr("src");
+                        ListData listData = new ListData();
+                        listData.alt = alt;
+                        listData.src = src;
+                        listData.href = href;
+                        listDatas.add(listData);
+                    }
                 }
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(DATA, listDatas);
+                DebugLog.i(TAG, listDatas.toString());
+                DebugLog.i(TAG, listDatas.size() + "个");
                 Message message = new Message();
                 message.setData(bundle);
                 message.what = LIST_BACK;
@@ -186,8 +190,9 @@ public class DataHelper {
             String url = completeDetailUrl(href, page1);
             Log.e(TAG, url);
             try {
-                String html = HtmlTool.getHtml(url);
-                Document document = Jsoup.parse(html);
+//                String html = HtmlTool.getHtml(url);
+//                Document document = Jsoup.parse(html);
+                Document document = Jsoup.connect(url).get();
                 if (document != null) {
 //                    Log.e(TAG, html);
 //                    Log.d(TAG, document.toString());

@@ -110,10 +110,8 @@ public class ListFragment extends Fragment implements
 //        loadData(true, isNews);
     }
 
-
+    @Deprecated
     public void loadData(final boolean isRefresh, boolean isNews) {
-
-
         DataCotroller.getInstance().loadList(isNews, id, page, row, new DataCotroller.DataHandler<ListBean>() {
             @Override
             public void onDataBack(boolean isEmpty, ListBean listBean, String msg) {

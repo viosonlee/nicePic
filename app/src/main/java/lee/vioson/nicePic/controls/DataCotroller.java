@@ -58,6 +58,7 @@ public class DataCotroller {
         else loadClassify(handler);
     }
 
+    @Deprecated
     public void loadList(boolean isNews, int id, int page, int row, final DataHandler<ListBean> handler) {
         if (isNews) client.getNewGalleries(id, row, 0, new HttpTool.ResultCallBack<ListBean>() {
             @Override
@@ -65,6 +66,7 @@ public class DataCotroller {
                 Log.d(TAG, request.toString());
                 handler.onDataBack(true, null, request.toString());
             }
+
             @Override
             protected void onResponse(ListBean list) {
                 mListBean = list;

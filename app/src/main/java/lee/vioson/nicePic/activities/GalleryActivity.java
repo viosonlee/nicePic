@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Request;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -116,6 +117,7 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
                     picAdapter1.setOnClickListener(GalleryActivity.this);
 //                title = picDetails.;
                     setCountIndex(0);
+                    loadAllThumbs(mData1);
                 }
             }
 
@@ -145,6 +147,12 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
 //                }
 //            }
 //        });
+    }
+
+    private void loadAllThumbs(ArrayList<PicDetail> mData1) {
+        for (PicDetail picDetail : mData1) {
+            Picasso.with(this).load(picDetail.src);
+        }
     }
 
     private void setCountIndex(int i) {
@@ -189,7 +197,7 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
         PicassoUtil.saveBitmapSDCard(GalleryActivity.this,
                 DataHelper.getPicUrl(mData1.get(index).src)
                 , Environment.getExternalStorageDirectory() + DIR_NAME +
-                        mData1.get(index).alt+/* "_" + index + */".png",
+                        mData1.get(index).alt +/* "_" + index + */".png",
                 new PicassoUtil.SaveBitmapListener() {
                     @Override
                     public void onSaved(String path) {
