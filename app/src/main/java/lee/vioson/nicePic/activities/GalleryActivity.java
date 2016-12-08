@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -173,23 +174,29 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        savePic();
+    }
 
     private void savePic() {
         boolean b = PermissionUtil.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (!b) {
-            PermissionUtil.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if (mData1.size() > 0) {
-            final int index = viewPager.getCurrentItem();
-            DialogShower.showCancelableChooseDialog(this, "保存图片到本地", "确定",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            GalleryActivity.this.save(index);
-                        }
-                    });
-            Log.d("path", Environment.getExternalStorageDirectory() + DIR_NAME +
-                    title + "_" + index + ".png");
+            PermissionUtil.requestPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, "存储卡读写");
+        } else {
+            if (mData1.size() > 0) {
+                final int index = viewPager.getCurrentItem();
+                DialogShower.showCancelableChooseDialog(this, "保存图片到本地", "确定",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                GalleryActivity.this.save(index);
+                            }
+                        });
+                Log.d("path", Environment.getExternalStorageDirectory() + DIR_NAME +
+                        title + "_" + index + ".png");
+            }
         }
     }
 
