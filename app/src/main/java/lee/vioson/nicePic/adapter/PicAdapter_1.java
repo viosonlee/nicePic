@@ -48,7 +48,7 @@ public class PicAdapter_1 extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        ((ViewPager) container).removeView((View) object);
+        container.removeView((View) object);
     }
 
     @Override
@@ -62,23 +62,11 @@ public class PicAdapter_1 extends PagerAdapter {
             }
         });
 
-//                DialogShower.showCancelableChooseDialog(mContext, "保存图片到本地", "确定",
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                PicassoUtil.saveBitmapSDCard(mContext,
-//                                        UrlUtil.completeBigImgUrl(paths.get(position).getSrc())
-//                                        , Environment.getExternalStorageDirectory() + "/vioson.png");
-//                            }
-//                        });
-//                Log.d("path",Environment.getExternalStorageDirectory() + "/vioson.png");
-
-        ((ViewPager) container).addView(imageView);
+        container.addView(imageView);
         return imageView;
     }
 
     private View createImageView(String path) {
-
         final ZoomImageView imageView = new ZoomImageView(mContext);
 //        final ImageView imageView=new ImageView(mContext);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
@@ -87,10 +75,8 @@ public class PicAdapter_1 extends PagerAdapter {
         imageView.setLayoutParams(lp);
         PicassoUtil.setImage(mContext, DataHelper.getPicUrl(path), imageView);
         Log.e("picadapter",DataHelper.getPicUrl(path));
-//        Picasso.with(mContext).load(UrlUtil.completeBigImgUrl(path)).into(imageView);
         return imageView;
     }
-
 
     private OnClickListener onClickListener;
 
