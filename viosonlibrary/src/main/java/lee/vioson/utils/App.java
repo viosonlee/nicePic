@@ -10,9 +10,12 @@ import android.util.Log;
  * Todo
  */
 
+/**
+ * 全局 Application
+ */
 public class App {
     public static final Application INSTANCE;
-    public static final String TAG = "lee.vioson.utils.App";
+    private static final String TAG = "lee.vioson.utils.App";
 
     static {
         Application app = null;
