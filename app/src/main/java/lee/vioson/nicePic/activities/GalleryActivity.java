@@ -17,23 +17,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.okhttp.Request;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.adapter.PicAdapter;
 import lee.vioson.nicePic.adapter.PicAdapter_1;
 import lee.vioson.nicePic.api.ApiClient;
 import lee.vioson.nicePic.models.ShowBean;
 import lee.vioson.nicePic.utils.DialogShower;
-import lee.vioson.nicePic.utils.UrlUtil;
 import lee.vioson.nicePic.views.TranActionBar;
-import lee.vioson.utils.HttpTool;
 import lee.vioson.utils.PermissionUtil;
 import lee.vioson.utils.PicassoUtil;
 import lee.vioson.xiumm.models.PicDetail;
@@ -45,21 +39,21 @@ import lee.vioson.xiumm.utils.DataHelper;
  * FIXME
  * Todo
  */
-public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnClickListener, ViewPager.OnPageChangeListener, PicAdapter_1.OnClickListener {
+public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnClickListener, ViewPager.OnPageChangeListener, PicAdapter_1.OnClickListener, View.OnClickListener {
     public static final String ID = "gallery_id";
     private static final int REQUEST_CODE = 1;
     private static final String DIR_NAME = "/nicePic/";
     public static final String TITLE = "title";
 
-    @Bind(R.id.view_pager)
+    //    @BindView(R.id.view_pager)
     ViewPager viewPager;
-    @Bind(R.id.root_view)
+    //    @BindView(R.id.root_view)
     RelativeLayout rootView;
-    @Bind(R.id.action_bar)
+    //    @BindView(R.id.action_bar)
     TranActionBar actionBar;
-    @Bind(R.id.save_pic)
+    //    @BindView(R.id.save_pic)
     ImageView savePic;
-    @Bind(R.id.count_txt)
+    //    @BindView(R.id.count_txt)
     TextView countTxt;
 
 
@@ -78,7 +72,13 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_gallery);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        rootView = (RelativeLayout) findViewById(R.id.root_view);
+        actionBar = (TranActionBar) findViewById(R.id.action_bar);
+        savePic = (ImageView) findViewById(R.id.save_pic);
+        countTxt = (TextView) findViewById(R.id.count_txt);
+        savePic.setOnClickListener(this);
         actionBar.setIcon(R.drawable.ic_back);
         title = getTitleStr();
         client = new ApiClient();
@@ -224,11 +224,6 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
     }
 
 
-    @OnClick(R.id.save_pic)
-    public void onClick() {
-        savePic();
-    }
-
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -242,5 +237,14 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.save_pic:
+                savePic();
+                break;
+        }
     }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.adapter.MyAdapter;
 import lee.vioson.nicePic.adapter.MyAdapter_1;
@@ -40,9 +37,9 @@ public class ListFragment extends Fragment implements
         SwipeRefreshLayout.OnRefreshListener,
         UpLoadRecyclerView.OnLoadMoreCallBack {
     public static final String ID = "id";
-    @Bind(R.id.list)
+//    @BindView(R.id.list)
     UpLoadRecyclerView list;
-    @Bind(R.id.root_view)
+//    @BindView(R.id.root_view)
     MySwipeRefreshLayout rootView;
     //    private MySwipeRefreshLayout rootView;
 //    private RecyclerView list;
@@ -83,7 +80,9 @@ public class ListFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pic_list, container, false);
-        ButterKnife.bind(this, view);
+//        ButterKnife.bind(this, view);
+        list = (UpLoadRecyclerView) view.findViewById(R.id.list);
+        rootView = (MySwipeRefreshLayout) view.findViewById(R.id.root_view);
         return view;
     }
 
@@ -235,7 +234,6 @@ public class ListFragment extends Fragment implements
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -3,15 +3,12 @@ package lee.vioson.nicePic.activities;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.utils.ActivitiSwtcher;
 import lee.vioson.xiumm.models.Type;
@@ -24,7 +21,6 @@ import lee.vioson.xiumm.utils.DataHelper;
  * Todo 第一屏（可以插广告的）
  */
 public class SplashActivity extends AppCompatActivity implements Animation.AnimationListener {
-    @Bind(R.id.root_view)
     RelativeLayout rootView;
     private static final int FLAG_LOADING = 3;
     private static final int FLAG_LOADFAUER = 0;
@@ -40,7 +36,7 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_splash);
-        ButterKnife.bind(this);
+        rootView = (RelativeLayout) findViewById(R.id.root_view);
         loadType();
         AlphaAnimation animation = new AlphaAnimation(0.3f, 1.0f);
         animation.setDuration(1000);

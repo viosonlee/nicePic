@@ -1,1 +1,3 @@
-include ':app', ':viosonlibrary', ':xiumm'
+include ':app',
+        ':viosonlibrary',
+        ':xiumm'

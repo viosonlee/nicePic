@@ -20,11 +20,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.adapter.MenuItemAdapter;
-import lee.vioson.nicePic.controls.DataCotroller;
 import lee.vioson.nicePic.fragments.ListFragment;
 import lee.vioson.nicePic.models.ClassifyBean;
 import lee.vioson.nicePic.utils.ActivitiSwtcher;
@@ -39,13 +36,13 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
 
     private static final String FRAGMENT_TAG = "list_fragment";
     public static String types = "types";
-    @Bind(R.id.toolbar)
+//    @BindView(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.fab)
+//    @BindView(R.id.fab)
     FloatingActionButton fab;
-    @Bind(R.id.id_lv_left_menu)
+//    @BindView(R.id.id_lv_left_menu)
     ListView mLvLeftMenu;
-    @Bind(R.id.drawer_layout)
+//    @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
 
@@ -60,7 +57,11 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        mLvLeftMenu = (ListView) findViewById(R.id.id_lv_left_menu);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         DebugLog.setDebug(true);
         //常规view的初始化
         initNormalView();

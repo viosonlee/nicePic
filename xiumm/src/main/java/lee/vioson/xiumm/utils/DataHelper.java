@@ -35,7 +35,8 @@ public class DataHelper {
         return picUrl.contains("http://") ? picUrl : url + picUrl;
     }
 
-    private static final String url = "http://xiumm.cc/";
+//    private static final String url = "http://xiumm.cc";
+    private static final String url = "http://www.xmeim.com";
 
     /**
      * 获取列表数据
@@ -59,7 +60,7 @@ public class DataHelper {
                     Elements img = element.select("img");
                     if (img != null && !img.isEmpty()) {
                         String alt = img.attr("alt");
-                        String src = img.attr("src");
+                        String src = img.attr("data-original");
                         ListData listData = new ListData();
                         listData.alt = alt;
                         listData.src = src;
@@ -94,8 +95,8 @@ public class DataHelper {
      * @return 返回当前分页的url
      */
     private static String completeUrl(int page, String typeHref) {
-        if (typeHref.contains("http://")) {
-            return page == 1 ? url : url + "albums/page-" + page + ".html";
+        if (!TextUtils.isEmpty(typeHref) && typeHref.contains("http://")) {
+            return page == 1 ? url : url + "/albums/page-" + page + ".html";
         } else {
             return completeDetailUrl(typeHref, page);
 //            if (page == 1) {
@@ -174,7 +175,10 @@ public class DataHelper {
      * @return
      */
     private static String completeDetailUrl(String href, int page) {
-        return page == 1 ? url + href : url + (href.replace(".html", "-" + page + ".html"));
+        if (!TextUtils.isEmpty(href) && (href.contains("http://") || href.contains("https://")))
+            return page == 1 ? href : (href.replace(".html", "-" + page + ".html"));
+        else
+            return page == 1 ? url + href : url + "/"+(href.replace(".html", "-" + page + ".html"));
     }
 
     /**

@@ -13,8 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import lee.vioson.nicePic.BuildConfig;
 import lee.vioson.nicePic.R;
 import lee.vioson.widget.ProgressWebView;
@@ -29,9 +27,9 @@ public class WebActivity extends AppCompatActivity {
 
     public static final String TITLE = "title";
     public static final String URL = "url";
-    @Bind(R.id.ll_parent)
+    //    @BindView(R.id.ll_parent)
     LinearLayout parent;
-    @Bind(R.id.web_view)
+    //    @BindView(R.id.web_view)
     ProgressWebView mWebView;
     private WebSettings settings;
 
@@ -39,7 +37,9 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
+        parent = (LinearLayout) findViewById(R.id.ll_parent);
+        mWebView = (ProgressWebView) findViewById(R.id.web_view);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         settings = mWebView.getSettings();

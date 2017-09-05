@@ -10,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.models.ListBean;
 import lee.vioson.nicePic.utils.ActivitiSwtcher;
@@ -32,11 +30,11 @@ public class ListItem extends LinearLayout {
 
 
     private static int picSize = 100;
-    @Bind(R.id.pic)
+    //    @BindView(R.id.pic)
     ImageView pic;
-    @Bind(R.id.title)
+    //    @BindView(R.id.title)
     TextView title;
-    @Bind(R.id.time)
+    //    @BindView(R.id.time)
     TextView time;
 
     public ListItem(Context context) {
@@ -50,7 +48,10 @@ public class ListItem extends LinearLayout {
     public ListItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         View view = LayoutInflater.from(context).inflate(R.layout.view_list_item, this);
-        ButterKnife.bind(view, this);
+//        ButterKnife.bind(view, this);
+        pic = (ImageView) view.findViewById(R.id.pic);
+        title = (TextView) view.findViewById(R.id.title);
+        time = (TextView) view.findViewById(R.id.time);
         if (NetWorkUtils.isFastMobileNetwork(context))
             picSize = context.getResources().getDimensionPixelOffset(R.dimen.pic_size_width);
     }
