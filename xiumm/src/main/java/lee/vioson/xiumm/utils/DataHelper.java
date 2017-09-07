@@ -35,7 +35,7 @@ public class DataHelper {
         return picUrl.contains("http://") ? picUrl : url + picUrl;
     }
 
-//    private static final String url = "http://xiumm.cc";
+    //    private static final String url = "http://xiumm.cc";
     private static final String url = "http://www.xmeim.com";
 
     /**
@@ -96,7 +96,12 @@ public class DataHelper {
      */
     private static String completeUrl(int page, String typeHref) {
         if (!TextUtils.isEmpty(typeHref) && typeHref.contains("http://")) {
-            return page == 1 ? url : url + "/albums/page-" + page + ".html";
+            if (page == 1)
+                return typeHref;
+            else {
+                typeHref.replace(".html", "-" + page + ".html");
+                return typeHref;
+            }
         } else {
             return completeDetailUrl(typeHref, page);
 //            if (page == 1) {
@@ -178,7 +183,7 @@ public class DataHelper {
         if (!TextUtils.isEmpty(href) && (href.contains("http://") || href.contains("https://")))
             return page == 1 ? href : (href.replace(".html", "-" + page + ".html"));
         else
-            return page == 1 ? url + href : url + "/"+(href.replace(".html", "-" + page + ".html"));
+            return page == 1 ? url + href : url + (href.replace(".html", "-" + page + ".html"));
     }
 
     /**
