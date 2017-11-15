@@ -11,8 +11,9 @@ import java.util.ArrayList;
 
 import lee.vioson.nicePic.R;
 import lee.vioson.nicePic.utils.ActivitiSwtcher;
+import lee.vioson.nicePic.utils.DataServie;
 import lee.vioson.xiumm.models.Type;
-import lee.vioson.xiumm.utils.DataHelper;
+import lee.vioson.xiumm.utils.DataHandler;
 
 /**
  * Author:李烽
@@ -46,7 +47,7 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
     }
 
     private void loadType() {
-        DataHelper.loadTypes(new DataHelper.DataHandler<ArrayList<Type>>() {
+        DataServie.loadTypes(new DataHandler<ArrayList<Type>>() {
             @Override
             public void onDataBack(boolean isEmpty, ArrayList<Type> types) {
                 flag = FLAG_LOADOK;
@@ -56,7 +57,6 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
                     SplashActivity.this.types.clear();
                     SplashActivity.this.types.addAll(types);
                 }
-
             }
 
             @Override
@@ -66,6 +66,29 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
                     ActivitiSwtcher.toMain(SplashActivity.this);
             }
         });
+
+//        types = DataHelper2.loadTypes();
+//        flag = FLAG_LOADOK;
+//        DataHelper.loadTypes(new DataHelper.DataHandler<ArrayList<Type>>() {
+//            @Override
+//            public void onDataBack(boolean isEmpty, ArrayList<Type> types) {
+//                flag = FLAG_LOADOK;
+//                if (animIsOver) {
+//                    ActivitiSwtcher.toMain(SplashActivity.this, types);
+//                } else {
+//                    SplashActivity.this.types.clear();
+//                    SplashActivity.this.types.addAll(types);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onDocumentNull() {
+//                flag = FLAG_LOADFAUER;
+//                if (animIsOver)
+//                    ActivitiSwtcher.toMain(SplashActivity.this);
+//            }
+//        });
     }
 
 

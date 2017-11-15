@@ -2,7 +2,6 @@ package lee.vioson.nicePic.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -13,12 +12,10 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import lee.vioson.nicePic.models.ShowBean;
-import lee.vioson.nicePic.utils.UrlUtil;
+import lee.vioson.nicePic.utils.DataServie;
 import lee.vioson.utils.PicassoUtil;
 import lee.vioson.widget.ZoomImageView;
 import lee.vioson.xiumm.models.PicDetail;
-import lee.vioson.xiumm.utils.DataHelper;
 
 /**
  * Author:李烽
@@ -73,8 +70,8 @@ public class PicAdapter_1 extends PagerAdapter {
                 , ViewGroup.LayoutParams.MATCH_PARENT);
         lp.gravity = Gravity.CENTER;
         imageView.setLayoutParams(lp);
-        PicassoUtil.setImage(mContext, DataHelper.getPicUrl(path), imageView);
-        Log.e("picadapter",DataHelper.getPicUrl(path));
+        PicassoUtil.setImage(mContext, DataServie.getPicUrl(path), imageView);
+        Log.e("picadapter",DataServie.getPicUrl(path));
         return imageView;
     }
 

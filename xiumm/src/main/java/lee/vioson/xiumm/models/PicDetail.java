@@ -45,6 +45,9 @@ public class PicDetail implements Parcelable {
 
     @Override
     public String toString() {
-        return "src:" + src + "\nalt:" + alt;
+        return "PicDetail{" +
+                "src='" + src + '\'' +
+                ", alt='" + alt + '\'' +
+                '}';
     }
 }

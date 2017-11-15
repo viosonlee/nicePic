@@ -26,6 +26,7 @@ import lee.vioson.xiumm.models.ListData;
  * FIXME
  * Todo
  */
+@Deprecated
 public class ListItem extends LinearLayout {
 
 

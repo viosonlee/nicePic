@@ -48,7 +48,10 @@ public class ListData implements Parcelable {
 
     @Override
     public String toString() {
-        return "href:" + href + "\nsrc:"
-                + src + "\nalt:" + alt;
+        return "ListData{" +
+                "href='" + href + '\'' +
+                ", src='" + src + '\'' +
+                ", alt='" + alt + '\'' +
+                '}';
     }
 }

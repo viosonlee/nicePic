@@ -2,6 +2,7 @@ package lee.vioson.nicePic.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -80,7 +81,8 @@ public class ListItem_H extends LinearLayout {
         String url = listData.src;
         if (!TextUtils.isEmpty(url))
             PicassoUtil.setImage(getContext(), url, pic);
-        title.setText(listData.alt);
+//        title.setText(listData.alt);
+        title.setText(Html.fromHtml(listData.alt));
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

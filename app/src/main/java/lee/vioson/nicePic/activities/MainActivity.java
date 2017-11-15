@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,24 +26,25 @@ import lee.vioson.nicePic.adapter.MenuItemAdapter;
 import lee.vioson.nicePic.fragments.ListFragment;
 import lee.vioson.nicePic.models.ClassifyBean;
 import lee.vioson.nicePic.utils.ActivitiSwtcher;
+import lee.vioson.nicePic.utils.DataServie;
 import lee.vioson.nicePic.views.LvMenuItem;
 import lee.vioson.utils.DebugLog;
 import lee.vioson.utils.ShareUtil;
 import lee.vioson.xiumm.models.Type;
-import lee.vioson.xiumm.utils.DataHelper;
+import lee.vioson.xiumm.utils.DataHandler;
 
 public class MainActivity extends AppCompatActivity implements MenuItemAdapter.OnItemSelectListener
         , ListFragment.OnListScrollListener {
 
     private static final String FRAGMENT_TAG = "list_fragment";
     public static String types = "types";
-//    @BindView(R.id.toolbar)
+    //    @BindView(R.id.toolbar)
     Toolbar toolbar;
-//    @BindView(R.id.fab)
+    //    @BindView(R.id.fab)
     FloatingActionButton fab;
-//    @BindView(R.id.id_lv_left_menu)
+    //    @BindView(R.id.id_lv_left_menu)
     ListView mLvLeftMenu;
-//    @BindView(R.id.drawer_layout)
+    //    @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
 
 
@@ -69,7 +71,13 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
         setUpDrawer();
         //加载类型
         initFragment(savedInstanceState);
-        loadType();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mTypes.size() <= 0)
+            loadType();
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -107,6 +115,8 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
         //        navigationView.setNavigationItemSelectedListener(this);
     }
 
+    long toggleClickTime = 0;
+
     private void setUpDrawer() {
 //        items = new ArrayList<>();
 //        LvMenuItem item = new LvMenuItem(R.drawable.heart, "最新");
@@ -122,6 +132,17 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
             ((Animatable) drawable).start();
         }
 
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (System.currentTimeMillis() - toggleClickTime <= 500) {
+                    DataServie.isLimit = !DataServie.isLimit;
+                    loadType();
+                    drawer.closeDrawer(Gravity.LEFT);
+                } else toggleClickTime = System.currentTimeMillis();
+            }
+        });
+
         mLvLeftMenu.setAdapter(menuItemAdapter);
         menuItemAdapter.setOnItemSelectListener(this);
     }
@@ -129,7 +150,22 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
     ArrayList<Type> mTypes = new ArrayList<>();
 
     private void loadType() {
-        DataHelper.loadTypes(new DataHelper.DataHandler<ArrayList<Type>>() {
+//        DataHelper.loadTypes(new DataHelper.DataHandler<ArrayList<Type>>() {
+//            @Override
+//            public void onDataBack(boolean isEmpty, ArrayList<Type> types) {
+//                if (!isEmpty) {
+//                    upMenu(types);
+//                    mTypes.clear();
+//                    mTypes.addAll(types);
+//                }
+//            }
+//
+//            @Override
+//            public void onDocumentNull() {
+//
+//            }
+//        });
+        DataServie.loadTypes(new DataHandler<ArrayList<Type>>() {
             @Override
             public void onDataBack(boolean isEmpty, ArrayList<Type> types) {
                 if (!isEmpty) {
@@ -144,19 +180,10 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
 
             }
         });
-
-
-//        DataCotroller.getInstance().loadClassify(new DataCotroller.DataHandler<ClassifyBean>() {
-//            @Override
-//            public void onDataBack(boolean isEmpty, ClassifyBean classifyBean, String msg) {
-//                if (!isEmpty) {
-//                    upMenu(classifyBean);
-//                } else loadType();
-//            }
-//        });
     }
 
     private void upMenu(ArrayList<Type> types) {
+        items.clear();
         for (Type type : types) {
             LvMenuItem item = new LvMenuItem();
             item.icon = R.drawable.heart;
@@ -175,26 +202,6 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
         }
     }
 
-    private void upMenu(ClassifyBean classifyBean) {
-        if (classifyBean != null) {
-            tngou = classifyBean.getTngou();
-            if (tngou != null && tngou.size() > 0) {
-                for (int i = 0; i < tngou.size(); i++) {
-                    LvMenuItem item = new LvMenuItem();
-                    item.icon = R.drawable.heart;
-                    item.type = LvMenuItem.TYPE_NORMAL;
-                    item.name = tngou.get(i).getName();
-                    items.add(item);
-//
-                }
-                LvMenuItem item = new LvMenuItem();
-                item.type = LvMenuItem.TYPE_SEPARATOR;
-                items.add(item);//横线
-                addAppMenus();
-                menuItemAdapter.notifyDataSetChanged();
-            }
-        }
-    }
 
     private void addAppMenus() {
 //        items.add(new LvMenuItem(R.drawable.ic_setting, getString(R.string.action_settings)));
@@ -204,7 +211,6 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -253,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements MenuItemAdapter.O
 //        }
         else if (position == items.size() - 1) {
             //关于
-            ActivitiSwtcher.toWeb(this,getString(R.string.about),"file:///android_asset/about.html");
+            ActivitiSwtcher.toWeb(this, getString(R.string.about), "file:///android_asset/about.html");
         }
 
 

@@ -3,6 +3,7 @@ package lee.vioson.nicePic.views;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -13,8 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.sql.RowIdLifetime;
 
 import lee.vioson.nicePic.R;
 import lee.vioson.utils.ScreenUtil;
@@ -38,7 +37,7 @@ public class TranActionBar extends LinearLayout implements View.OnClickListener 
 
     public void setTitle(String title) {
         this.title = title;
-        mTitle.setText(title);
+        mTitle.setText(Html.fromHtml(title));
     }
 
     private String title;

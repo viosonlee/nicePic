@@ -14,6 +14,7 @@ import lee.vioson.nicePic.views.ListItem;
  * FIXME
  * Todo
  */
+@Deprecated
 public class MyAdapter extends BaseRecyclerAdapter<ListBean.TngouEntity> {
 
     public MyAdapter(Context context, List<ListBean.TngouEntity> list) {

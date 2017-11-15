@@ -26,12 +26,13 @@ import lee.vioson.nicePic.adapter.PicAdapter;
 import lee.vioson.nicePic.adapter.PicAdapter_1;
 import lee.vioson.nicePic.api.ApiClient;
 import lee.vioson.nicePic.models.ShowBean;
+import lee.vioson.nicePic.utils.DataServie;
 import lee.vioson.nicePic.utils.DialogShower;
 import lee.vioson.nicePic.views.TranActionBar;
 import lee.vioson.utils.PermissionUtil;
 import lee.vioson.utils.PicassoUtil;
 import lee.vioson.xiumm.models.PicDetail;
-import lee.vioson.xiumm.utils.DataHelper;
+import lee.vioson.xiumm.utils.DataHandler;
 
 /**
  * Author:李烽
@@ -106,7 +107,7 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
 
     private void loadData() {
         dialog.show();
-        DataHelper.loadDetail(getID(), new DataHelper.DataHandler<ArrayList<PicDetail>>() {
+        DataServie.loadPicList(getID(), new DataHandler<ArrayList<PicDetail>>() {
             @Override
             public void onDataBack(boolean isEmpty, ArrayList<PicDetail> picDetails) {
                 dialog.dismiss();
@@ -127,8 +128,27 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
                 dialog.dismiss();
             }
         });
-
-
+//        DataHelper.loadDetail(getID(), new DataHelper.DataHandler<ArrayList<PicDetail>>() {
+//            @Override
+//            public void onDataBack(boolean isEmpty, ArrayList<PicDetail> picDetails) {
+//                dialog.dismiss();
+//                if (!isEmpty) {
+//                    mData1.clear();
+//                    mData1.addAll(picDetails);
+//                    PicAdapter_1 picAdapter1 = new PicAdapter_1(picDetails, GalleryActivity.this);
+//                    viewPager.setAdapter(picAdapter1);
+//                    picAdapter1.setOnClickListener(GalleryActivity.this);
+////                title = picDetails.;
+//                    setCountIndex(0);
+//                    loadAllThumbs(mData1);
+//                }
+//            }
+//
+//            @Override
+//            public void onDocumentNull() {
+//                dialog.dismiss();
+//            }
+//        });
 //        client.getPicDetail(getID(), new HttpTool.ResultCallBack<ShowBean>() {
 //            @Override
 //            protected void onError(Request request, Exception e) {
@@ -202,7 +222,7 @@ public class GalleryActivity extends AppCompatActivity implements PicAdapter.OnC
 
     private void save(int index) {
         PicassoUtil.saveBitmapSDCard(GalleryActivity.this,
-                DataHelper.getPicUrl(mData1.get(index).src)
+                DataServie.getPicUrl(mData1.get(index).src)
                 , Environment.getExternalStorageDirectory() + DIR_NAME +
                         mData1.get(index).alt +/* "_" + index + */".png",
                 new PicassoUtil.SaveBitmapListener() {

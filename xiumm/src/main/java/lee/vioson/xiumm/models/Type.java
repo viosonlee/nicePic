@@ -9,9 +9,16 @@ import android.os.Parcelable;
  */
 public class Type implements Parcelable {
     public String href;
+
+    public Type(String href, String title) {
+        this.href = href;
+        this.title = title;
+    }
+
     public String title;
 
-    public Type(){}
+    public Type() {
+    }
 
     protected Type(Parcel in) {
         href = in.readString();

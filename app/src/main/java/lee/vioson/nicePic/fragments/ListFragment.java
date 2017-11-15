@@ -20,12 +20,13 @@ import lee.vioson.nicePic.adapter.MyAdapter;
 import lee.vioson.nicePic.adapter.MyAdapter_1;
 import lee.vioson.nicePic.controls.DataCotroller;
 import lee.vioson.nicePic.models.ListBean;
+import lee.vioson.nicePic.utils.DataServie;
 import lee.vioson.nicePic.views.MySwipeRefreshLayout;
 import lee.vioson.utils.DebugLog;
 import lee.vioson.widget.UpLoadRecyclerView;
 import lee.vioson.xiumm.models.ListData;
 import lee.vioson.xiumm.models.Type;
-import lee.vioson.xiumm.utils.DataHelper;
+import lee.vioson.xiumm.utils.DataHandler;
 
 /**
  * Author:李烽
@@ -37,9 +38,9 @@ public class ListFragment extends Fragment implements
         SwipeRefreshLayout.OnRefreshListener,
         UpLoadRecyclerView.OnLoadMoreCallBack {
     public static final String ID = "id";
-//    @BindView(R.id.list)
+    //    @BindView(R.id.list)
     UpLoadRecyclerView list;
-//    @BindView(R.id.root_view)
+    //    @BindView(R.id.root_view)
     MySwipeRefreshLayout rootView;
     //    private MySwipeRefreshLayout rootView;
 //    private RecyclerView list;
@@ -127,13 +128,34 @@ public class ListFragment extends Fragment implements
 
     public void loadData(final boolean isRefresh) {
         rootView.startRefresh();
-        DataHelper.loadList(page, mType.href, new DataHelper.DataHandler<ArrayList<ListData>>() {
+//        DataHelper.loadList(page, mType.href, new DataHelper.DataHandler<ArrayList<ListData>>() {
+//            @Override
+//            public void onDataBack(boolean isEmpty, ArrayList<ListData> listDatas) {
+//                rootView.endRefresh();
+//                list.loadComplete();
+//                if (!isEmpty) {
+//                    upList(listDatas, isRefresh);
+//                } else {
+//                    list.setHasMore(false);
+//                    Toast.makeText(getActivity(), "没有了", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onDocumentNull() {
+//                rootView.endRefresh();
+//                list.loadComplete();
+//                list.setHasMore(false);
+//            }
+//        });
+
+        DataServie.loadListData(page, mType.href, new DataHandler<ArrayList<ListData>>() {
             @Override
-            public void onDataBack(boolean isEmpty, ArrayList<ListData> listDatas) {
+            public void onDataBack(boolean isEmpty, ArrayList<ListData> listData) {
                 rootView.endRefresh();
                 list.loadComplete();
                 if (!isEmpty) {
-                    upList(listDatas, isRefresh);
+                    upList(listData, isRefresh);
                 } else {
                     list.setHasMore(false);
                     Toast.makeText(getActivity(), "没有了", Toast.LENGTH_SHORT).show();
@@ -147,7 +169,6 @@ public class ListFragment extends Fragment implements
                 list.setHasMore(false);
             }
         });
-
     }
 
     private void upList(ArrayList<ListData> listDatas, boolean isRefresh) {
@@ -174,7 +195,7 @@ public class ListFragment extends Fragment implements
     public interface OnListScrollListener {
         void onListScroll(int firstVisiblePosition, int endVisiblePosition, int totalCount);
     }
-
+    @Deprecated
     private void upList(ListBean listBean, boolean isRefresh) {
         if (listBean != null) {
             List<ListBean.TngouEntity> tngou = listBean.getTngou();

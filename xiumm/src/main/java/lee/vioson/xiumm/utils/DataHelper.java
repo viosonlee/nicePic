@@ -10,7 +10,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import lee.vioson.utils.DebugLog;
@@ -36,7 +41,8 @@ public class DataHelper {
     }
 
     //    private static final String url = "http://xiumm.cc";
-    private static final String url = "http://www.xmeim.com";
+//    private static final String url = "http://www.xmeim.com";
+    private static final String url = "http://www.xiumeim.com";
 
     /**
      * 获取列表数据
@@ -45,13 +51,15 @@ public class DataHelper {
      */
     private static void getList(int page, String typeHref) {
         String url = completeUrl(page, typeHref);
-        Log.d("getList", url);
+        Log.d(TAG, url);
         try {
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(encodeUrl(url)).get();
+//            Document document = Jsoup.parse(reaDHTML(url));
             if (document != null) {
 //                Log.d(TAG, document.toString());
-                Element bodywrap = document.getElementById("bodywrap");
-                Log.d(TAG, bodywrap.toString());
+                Elements gallaryWrap = document.getElementsByClass("gallary_wrap");
+                Log.d(TAG, gallaryWrap.toString());
+                Element bodywrap = gallaryWrap.get(0);
                 Elements elements = bodywrap.select("a[target]");
                 Log.d(TAG, elements.toString());
                 ArrayList<ListData> listDatas = new ArrayList<>();
@@ -88,6 +96,18 @@ public class DataHelper {
     }
 
     /**
+     * 首页分类下面的数据
+     *
+     * @param page
+     * @return
+     */
+    private static String getAlbumsUrl(int page) {
+        if (page == 1)
+            return url + "/";
+        else return url + "/albums/page-" + page + ".html";
+    }
+
+    /**
      * 获取列表数据用到分页，
      *
      * @param page
@@ -96,11 +116,15 @@ public class DataHelper {
      */
     private static String completeUrl(int page, String typeHref) {
         if (!TextUtils.isEmpty(typeHref) && typeHref.contains("http://")) {
-            if (page == 1)
-                return typeHref;
-            else {
-                typeHref.replace(".html", "-" + page + ".html");
-                return typeHref;
+            if (typeHref.equals(url + "/")) {
+                return getAlbumsUrl(page);
+            } else {
+                if (page == 1)
+                    return typeHref;
+                else {
+                    typeHref.replace(".html", "-" + page + ".html");
+                    return typeHref;
+                }
             }
         } else {
             return completeDetailUrl(typeHref, page);
@@ -128,8 +152,10 @@ public class DataHelper {
      */
     private static void getTypes() {
         String url = getUrl();
+        Log.d(TAG, url);
         try {
-            Document document = Jsoup.connect(url).get();
+            Document document = Jsoup.connect(encodeUrl(url)).get();
+//            Document document = Jsoup.parse(reaDHTML(url));// TODO: 2017/11/14 修复url包含中文
             if (document != null) {
 //                Log.d(TAG, document.toString());
                 Element bodywrap = document.getElementById("menu");
@@ -138,13 +164,14 @@ public class DataHelper {
 //                Log.d(TAG, elements.toString());
                 ArrayList<Type> types = new ArrayList<>();
                 for (Element element : elements) {
-                    String href = element.attr("href");
+                    String href = element.attr(CommonKey.TAG_ATTR_HERF);
                     String title = element.attr("title");
                     Type type = new Type();
                     type.href = href;
                     type.title = title;
 //                    Log.e(TAG, type.toString());
-                    types.add(type);
+                    if (!title.equals("赞助本站"))
+                        types.add(type);
                 }
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList(DATA, types);
@@ -201,7 +228,8 @@ public class DataHelper {
             try {
 //                String html = HtmlTool.getHtml(url);
 //                Document document = Jsoup.parse(html);
-                Document document = Jsoup.connect(url).get();
+                Document document = Jsoup.connect(encodeUrl(url)).get();
+//                Document document = Jsoup.parse(reaDHTML(url));// TODO: 2017/11/14 修复url包含中文
                 if (document != null) {
 //                    Log.e(TAG, html);
 //                    Log.d(TAG, document.toString());
@@ -309,10 +337,28 @@ public class DataHelper {
     private static DataHandler listDataHandler;
     private static DataHandler typeDataHandler;
 
-    public interface DataHandler<T> {
-        void onDataBack(boolean isEmpty, T t);
+    private static String reaDHTML(String myurl) throws IOException {
+        StringBuffer sb = new StringBuffer("");
+        URL url;
+        url = new URL(myurl);
+        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream(),
+                "utf8"));
+        String s = "";
+        while ((s = br.readLine()) != null) {
+            sb.append(s + "\r\n");
+        }
+        return sb.toString();
 
-        void onDocumentNull();
     }
 
+    private static String encodeUrl(String url) throws UnsupportedEncodingException {
+        //对路径进行编码 然后替换路径中所有空格 编码之后空格变成“+”而空格的编码表示是“%20” 所以将所有的“+”替换成“%20”就可以了
+        String newUrl = URLEncoder.encode(url, "utf8").replaceAll("\\+", "%20");
+        //编码之后的路径中的“/”也变成编码的东西了 所有还有将其替换回来 这样才是完整的路径
+        newUrl = newUrl.replaceAll("%3A", ":")
+                .replaceAll("%2F", "/");
+        Log.d(TAG, "newUrl:" + newUrl);
+        return newUrl;
+
+    }
 }
